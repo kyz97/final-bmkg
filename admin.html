@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin - Logbook PKL BBMKG Wilayah II</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="atas">
+  <div>
+    <p class="instansi">BBMKG Wilayah II</p>
+    <h1>Logbook PKL, panel admin</h1>
+  </div>
+  <button id="keluar" class="btn sm ghost" onclick="keluar()" hidden>Keluar</button>
+</header>
+<div class="rekam penuh"><canvas id="seismo" aria-hidden="true"></canvas></div>
+
+<main class="lebar">
+  <!-- Login admin -->
+  <section id="login" hidden>
+    <div class="login-card">
+      <h2>Masuk dulu ya</h2>
+      <p class="sub">Halaman ini khusus admin. Pakai akun yang sudah didaftarkan.</p>
+      <div class="full">
+        <label for="email">Email</label>
+        <input id="email" type="email" autocomplete="username">
+      </div>
+      <div class="full" style="margin-top:20px">
+        <label for="password">Password</label>
+        <input id="password" type="password" autocomplete="current-password">
+      </div>
+      <p id="login-error" class="galat" role="alert"></p>
+      <div class="actions"><button class="btn" onclick="masuk()">Masuk</button></div>
+    </div>
+  </section>
+
+  <!-- Data peserta -->
+  <section id="panel" hidden>
+    <p id="demo" class="demo" hidden>Mode demo: database belum tersambung. Data di bawah hanya contoh dan tersimpan di browser ini saja.</p>
+    <h2>Data peserta</h2>
+    <p class="sub">Yang baru mengisi form akan muncul di sini, tanpa perlu refresh.</p>
+
+    <div class="toolbar">
+      <input id="cari" type="search" placeholder="Cari nama, NISN, kampus, atau judul" oninput="render(false)" aria-label="Cari data">
+      <button class="btn ghost" onclick="exportCSV()">Unduh CSV</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <colgroup>
+          <col style="width:4%"><col style="width:9%"><col style="width:7%"><col style="width:11%">
+          <col style="width:9%"><col style="width:11%"><col style="width:10%"><col style="width:9%">
+          <col style="width:15%"><col style="width:7%"><col style="width:8%">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>No</th><th>Tgl. masuk</th><th>Kegiatan</th><th>Kampus / sekolah</th>
+            <th>No. kontak</th><th>Waktu</th><th>Nama</th><th>NISN / NIM</th>
+            <th>Judul penelitian / laporan</th><th>Status</th><th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="data.js"></script>
+<script src="seismograf.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
