@@ -1,0 +1,89 @@
+# Panduan Upload Website ke InfinityFree
+
+Panduan ini menjelaskan proses dari menyiapkan file ZIP proyek sampai website PHP dan database MySQL dapat dibuka melalui hosting InfinityFree.
+
+## 1. Siapkan File ZIP Proyek
+
+1. Pastikan file proyek sudah diekstrak di komputer jika yang tersedia hanya `zip.zip`.
+2. Buat ZIP baru dari file website berikut: `index.php`, `admin.php`, `edit.php`, `export_csv.php`, `export_excel.php`, `export_pdf.php`, `hapus.php`, `logout.php`, `proses_input.php`, folder `config`, `seismograf.js`, dan `style.css`. README dan dokumentasi boleh disertakan.
+3. Jangan sertakan folder `.git`. ZIP proyek yang tersedia saat panduan ini dibuat masih berisi `.git`, jadi jangan upload ZIP tersebut apa adanya.
+4. Pastikan saat ZIP dibuka, `index.php` dan folder `config` terlihat langsung di dalamnya, bukan berada di dalam folder bertingkat seperti `final-bmkg/index.php`.
+
+## 2. Siapkan Akun Hosting
+
+1. Masuk atau buat akun melalui [Client Area InfinityFree](https://dash.infinityfree.com/).
+2. Buat hosting account dan gunakan domain/subdomain yang akan dipakai. Jika memakai domain yang sudah aktif, pilih hosting account yang terhubung ke domain tersebut.
+3. Buka Control Panel untuk hosting account itu. Nama menu dapat berubah mengikuti tampilan panel InfinityFree.
+
+## 3. Buat Database MySQL
+
+1. Dari Control Panel, buka **MySQL Databases** lalu buat database baru.
+2. Catat nilai **MySQL Hostname**, **Database Name**, **Username**, dan password database yang ditampilkan panel. Salin nama database dan username lengkap beserta prefix-nya.
+3. Buka phpMyAdmin dari Control Panel, pilih database yang baru dibuat, lalu buka tab **SQL**.
+4. Jalankan perintah berikut untuk membuat tabel yang digunakan aplikasi:
+
+```sql
+CREATE TABLE IF NOT EXISTS peserta_magang (
+	id INT(11) AUTO_INCREMENT PRIMARY KEY,
+	tgl_masuk DATE NOT NULL,
+	kegiatan VARCHAR(100) NOT NULL,
+	kampus_sekolah VARCHAR(150) NOT NULL,
+	no_kontak VARCHAR(20) NOT NULL,
+	waktu VARCHAR(100) NOT NULL,
+	nama VARCHAR(150) NOT NULL,
+	nisn_nim VARCHAR(50) NOT NULL,
+	judul_penelitian TEXT,
+	status VARCHAR(50) DEFAULT 'Aktif'
+);
+```
+
+## 4. Upload ZIP lewat File Manager
+
+1. Dari Control Panel hosting, buka **File Manager** atau **Online File Manager**.
+2. Buka folder `htdocs`. Folder ini adalah akar website; `index.php` harus berada langsung di dalamnya.
+3. Jika website lama sudah ada, unduh backup file dan database terlebih dahulu sebelum mengganti file apa pun.
+4. Upload ZIP proyek bersih ke dalam `htdocs`.
+5. Pilih ZIP yang baru di-upload, lalu gunakan menu **Extract** atau **Unzip**.
+6. Setelah ekstrak, pastikan susunannya seperti ini:
+
+```text
+htdocs/
+|-- index.php
+|-- admin.php
+|-- config/
+|   `-- koneksi.php
+|-- style.css
+|-- seismograf.js
+`-- file PHP lainnya
+```
+
+Jika hasil ekstrak masuk ke folder proyek bertingkat, pindahkan isi folder itu ke `htdocs`. Jangan sampai alamat utama website berakhir pada folder yang tidak diinginkan. Setelah berhasil diekstrak, ZIP boleh dihapus dari hosting.
+
+## 5. Hubungkan Aplikasi ke Database Hosting
+
+1. Di File Manager, buka `htdocs/config/koneksi.php` dan pilih **Edit**.
+2. Isi variabel koneksi menggunakan nilai dari menu **MySQL Databases**. Jangan gunakan data koneksi lokal dari komputer:
+
+```php
+$host     = "HOSTNAME_DARI_PANEL";
+$username = "USERNAME_DATABASE_DARI_PANEL";
+$password = "PASSWORD_DATABASE";
+$database = "NAMA_DATABASE_DARI_PANEL";
+```
+
+3. Simpan perubahan. Pastikan hostname database menggunakan hostname yang diberikan InfinityFree, bukan otomatis `localhost`.
+4. Jangan membagikan password database atau menyimpan salinannya di dokumentasi publik.
+
+## 6. Uji Website
+
+1. Buka domain website melalui browser. Untuk situs ini, alamat yang sudah dipublikasikan adalah [https://finalbmkg.fwh.is/index.php?i=1](https://finalbmkg.fwh.is/index.php?i=1).
+2. Periksa apakah halaman form tampil dengan benar, termasuk CSS dan animasi seismograf.
+3. Kirim satu data uji, lalu pastikan data masuk ke tabel `peserta_magang` melalui phpMyAdmin.
+4. Hapus data uji setelah pemeriksaan selesai.
+5. Jika halaman menampilkan error koneksi database, cocokkan kembali hostname, nama database, username, password, dan pastikan tabel sudah dibuat.
+
+## Catatan Keamanan Penting
+
+Pada kode proyek saat ini, halaman `admin.php` menampilkan data tanpa pemeriksaan autentikasi di sisi server. Bagian tampilan login yang ada tidak cukup untuk melindungi data. Sebelum mengumpulkan data pribadi sungguhan, tambahkan autentikasi dan otorisasi server-side pada halaman admin, edit, hapus, dan ekspor, atau batasi aksesnya dengan cara lain yang benar-benar diterapkan di server.
+
+Jangan mengunggah folder `.git` atau membagikan kredensial database. Gunakan File Manager hanya untuk file website dan phpMyAdmin untuk mengelola database.
