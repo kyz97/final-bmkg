@@ -77,16 +77,14 @@
 <script src="seismograf.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Tangkap semua input
     const inputs = document.querySelectorAll('input');
     
     inputs.forEach(input => {
       input.addEventListener('input', function() {
-        // Log ini akan muncul di console browser setiap kamu ngetik
         console.log('Sedang ngetik, mengirim getaran...'); 
         
         if (typeof window.getarkan === 'function') {
-            window.getarkan(1.5); // Kekuatannya saya naikkan jadi 1.5 biar lebih terlihat
+          window.getarkan(1.5);
         } else {
             console.error('Fungsi getarkan tidak ditemukan!');
         }

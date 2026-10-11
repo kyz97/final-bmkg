@@ -45,13 +45,11 @@ $result = mysqli_query($koneksi, $query);
 
   <section id="panel">
     <h2>Data peserta</h2>
-    <p class="sub">Yang baru mengisi form akan muncul di sini, tanpa perlu refresh (jika pakai ajax, jika PHP murni perlu refresh).</p>
 
-<div class="toolbar" style="display: flex; width: 100%;">
-  <input id="cari" type="search" placeholder="Cari nama, NISN, kampus, atau judul" oninput="cariData()" aria-label="Cari data" style="width: 70%;">
+<div class="toolbar" style="display: flex; width: 100%; gap: 10px;">
+  <input id="cari" type="search" placeholder="Cari nama, NISN, kampus, atau judul" oninput="cariData()" aria-label="Cari data" style="flex: 1; width: 80%;">
   
-  <!-- 1 Tombol Dropdown -->
-  <select class="btn ghost" onchange="pilihUnduh(this.value)" style="cursor: pointer; appearance: auto; width: 30%;">
+  <select class="btn ghost" onchange="pilihUnduh(this.value)" style="cursor: pointer; appearance: auto; width: 20%;">
     <option value="" disabled selected>Unduh Data...</option>
     <option value="csv">Format CSV</option>
     <option value="excel">Format Excel</option>
@@ -64,7 +62,8 @@ $result = mysqli_query($koneksi, $query);
         <colgroup>
           <col style="width:4%"><col style="width:9%"><col style="width:7%"><col style="width:11%">
           <col style="width:9%"><col style="width:11%"><col style="width:10%"><col style="width:9%">
-          <col style="width:15%"><col style="width:7%"><col style="width:8%">
+          <!-- Lebar kolom aksi disesuaikan agar tombol Edit dan Hapus sejajar -->
+          <col style="width:13%"><col style="width:7%"><col style="width:10%">
         </colgroup>
         <thead>
           <tr>
@@ -90,8 +89,10 @@ $result = mysqli_query($koneksi, $query);
                     <td><?php echo htmlspecialchars($row['nisn_nim']); ?></td>
                     <td><?php echo htmlspecialchars($row['judul_penelitian']); ?></td>
                     <td><?php echo htmlspecialchars($row['status']); ?></td>
-                    <td>
+                    <!-- Menambahkan flexbox agar tombol Edit & Hapus sejajar ke samping -->
+                    <td style="display: flex; gap: 5px; flex-wrap: nowrap; border-bottom: none;">
                         <button class="btn sm" onclick="editData(<?php echo $row['id']; ?>)">Edit</button>
+                        <button class="btn sm ghost" style="color: #d32f2f; border-color: #d32f2f;" onclick="hapusData(<?php echo $row['id']; ?>)">Hapus</button>
                     </td>
                 </tr>
             <?php 
@@ -108,22 +109,18 @@ $result = mysqli_query($koneksi, $query);
 
 <div class="toast" id="toast" role="status"></div>
 
-<!-- Pastikan script seismograf.js dipanggil lebih dulu -->
 <script src="seismograf.js"></script>
 
 <script>
-    // Fungsi sederhana untuk mencari data di tabel pakai JavaScript
     function cariData() {
         let input = document.getElementById("cari").value.toLowerCase();
         let tr = document.querySelectorAll("#tbody tr");
         
-        // Panggil efek getaran seismograf saat mengetik!
         if (typeof window.getarkan === 'function') {
-            window.getarkan(1.5); // Angka 1.5 bisa dibesarkan atau dikecilkan
+          window.getarkan(1.5);
         }
         
         tr.forEach(row => {
-            // Abaikan baris jika itu pesan "Belum ada data"
             if (row.children.length === 1) return; 
             
             let text = row.innerText.toLowerCase();
@@ -131,31 +128,28 @@ $result = mysqli_query($koneksi, $query);
         });
     }
 
-    // Fungsi untuk memproses pilihan unduhan
     function pilihUnduh(format) {
         if (format === 'csv') {
             window.location.href = 'export_csv.php';
         } else if (format === 'excel') {
             window.location.href = 'export_excel.php';
         } else if (format === 'pdf') {
-            window.open('export_pdf.php', '_blank'); // Buka tab baru khusus PDF
+            window.open('export_pdf.php', '_blank');
         }
         
-        // Kembalikan dropdown ke tulisan "Unduh Data..." setelah dipilih
         document.querySelector('select').selectedIndex = 0;
     }
 
-    // Arahkan ke halaman edit.php sambil membawa ID
     function editData(id) {
         window.location.href = 'edit.php?id=' + id;
     }
 
-    // Arahkan ke script pembuat CSV
-    function exportCSV() {
-        window.location.href = 'export_csv.php';
+    // Fungsi konfirmasi dan mengarahkan ke hapus.php
+    function hapusData(id) {
+        if (confirm("Yakin ingin menghapus data ini?")) {
+            window.location.href = 'hapus.php?id=' + id;
+        }
     }
 </script>
-</body>
-</html>
 </body>
 </html>

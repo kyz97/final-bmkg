@@ -1,7 +1,6 @@
 <?php
 include 'config/koneksi.php';
 
-// --- PROSES SIMPAN PERUBAHAN ---
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id               = $_POST['id'];
     $nama             = mysqli_real_escape_string($koneksi, $_POST['nama']);
@@ -32,7 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit;
 }
 
-// --- MENGAMBIL DATA LAMA UNTUK DITAMPILKAN DI FORM ---
 if (!isset($_GET['id'])) {
     header("Location: admin.php");
     exit;
@@ -63,7 +61,6 @@ if (!$data) {
   <hr style="margin-bottom: 20px; border: 0; border-top: 1px solid #eee;">
   
   <form action="" method="POST">
-    <!-- Input hidden untuk mengirim ID ke proses UPDATE -->
     <input type="hidden" name="id" value="<?php echo $data['id']; ?>">
     
     <div class="grid" style="display: grid; gap: 15px; grid-template-columns: 1fr 1fr;">

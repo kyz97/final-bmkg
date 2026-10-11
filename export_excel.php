@@ -1,12 +1,10 @@
 <?php
 include 'config/koneksi.php';
 
-// Memaksa browser mendownload file ini sebagai Excel (.xls)
 header("Content-Type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=Data_Peserta_PKL.xls");
 ?>
 
-<!-- Excel akan otomatis merender tag tabel ini menjadi baris dan kolom -->
 <table border="1">
     <thead>
         <tr>
@@ -38,7 +36,6 @@ header("Content-Disposition: attachment; filename=Data_Peserta_PKL.xls");
                 echo "<td>" . $row['no_kontak'] . "</td>";
                 echo "<td>" . $row['waktu'] . "</td>";
                 echo "<td>" . $row['nama'] . "</td>";
-                // Tanda string ( ' ) agar NISN yang diawali nol tidak hilang di Excel
                 echo "<td>'" . $row['nisn_nim'] . "</td>"; 
                 echo "<td>" . $row['judul_penelitian'] . "</td>";
                 echo "<td>" . $row['status'] . "</td>";

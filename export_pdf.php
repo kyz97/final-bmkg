@@ -62,7 +62,6 @@ $result = mysqli_query($koneksi, $query);
     </table>
 
     <script>
-        // Memunculkan dialog print secara otomatis saat halaman dimuat
         window.onload = function() {
             window.print();
         }
