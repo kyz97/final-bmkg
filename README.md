@@ -2,6 +2,10 @@
 
 Proyek ini adalah sistem pendataan (logbook) sederhana untuk siswa/mahasiswa PKL dan magang di BBMKG Wilayah II. Awalnya project ini dibangun menggunakan HTML statis dan Supabase, namun sekarang sudah di-refactor (dirombak) menggunakan PHP Native dan MariaDB/MySQL.
 
+## Tujuan Website
+
+Website ini bertujuan memudahkan pendataan peserta PKL dan magang di BBMKG Wilayah II secara terpusat. Peserta dapat mengisi informasi diri dan kegiatan, sedangkan admin dapat melihat, mencari, memperbarui, menghapus, serta mengekspor data agar pengelolaan peserta lebih praktis dan tertata.
+
 ## Fitur Utama
 * **Form Input Data:** Halaman publik untuk peserta magang mengisi data diri.
 * **Efek Seismograf Animasi:** Visualisasi getaran seismograf interaktif saat user mengetik.
