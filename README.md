@@ -12,42 +12,10 @@ Proyek ini adalah sistem pendataan (logbook) sederhana untuk siswa/mahasiswa PKL
 
 ---
 
-## Persiapan (Prerequisites)
-Sebelum menjalankan aplikasi ini, pastikan teman-teman sudah menginstal local server di laptop/komputer masing-masing, seperti:
-* XAMPP, Laragon, atau MAMP.
-* Nyalakan module Apache (untuk web server) dan MySQL/MariaDB (untuk database).
+## Cara Mengakses Website
 
----
+Website sudah dipublikasikan dan dapat langsung dibuka melalui tautan berikut:
 
-## Cara Instalasi & Setup Database
+**[Masuk ke Website Logbook PKL BBMKG Wilayah II](https://finalbmkg.fwh.is/index.php?i=1)**
 
-Karena aplikasi ini sekarang menggunakan MySQL, hal pertama yang wajib dilakukan adalah membuat databasenya. Ikuti langkah berikut:
-
-### 1. Pindahkan Folder Project
-Pastikan folder project ini berada di dalam direktori server lokal kalian:
-* Jika pakai XAMPP: Taruh di folder `C:\xampp\htdocs\nama_folder_project`
-* Jika pakai Laragon: Taruh di folder `C:\laragon\www\nama_folder_project`
-
-### 2. Buat Database di phpMyAdmin
-1. Buka browser dan akses: `http://localhost/phpmyadmin`
-2. Klik tombol SQL di menu bagian atas.
-3. Copy lalu Paste kode SQL di bawah ini, dan klik Go / Kirim:
-
-```sql
--- 1. Membuat database baru
-CREATE DATABASE IF NOT EXISTS db_magang;
-USE db_magang;
-
--- 2. Membuat tabel peserta_magang
-CREATE TABLE IF NOT EXISTS peserta_magang (
-    id INT(11) AUTO_INCREMENT PRIMARY KEY,
-    tgl_masuk DATE NOT NULL,
-    kegiatan VARCHAR(100) NOT NULL,
-    kampus_sekolah VARCHAR(150) NOT NULL,
-    no_kontak VARCHAR(20) NOT NULL,
-    waktu VARCHAR(100) NOT NULL,
-    nama VARCHAR(150) NOT NULL,
-    nisn_nim VARCHAR(50) NOT NULL,
-    judul_penelitian TEXT,
-    status VARCHAR(50) DEFAULT 'Aktif'
-);
+Buka tautan tersebut menggunakan browser untuk mengakses halaman website. Tidak perlu memasang server lokal atau menyiapkan database untuk menggunakan website yang sudah dipublikasikan.
