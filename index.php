@@ -22,7 +22,7 @@
 
   <section class="lembar">
     <h2>Data dirimu</h2>
-    <p class="sub">Kolom bertanda bintang wajib diisi.</p>
+    <p class="sub">Semua kolom wajib diisi.</p>
 
     <form action="proses_input.php" method="POST">
       <div class="grid">
@@ -35,17 +35,17 @@
           <input id="nisn" name="nisn_nim" maxlength="30" inputmode="numeric" placeholder="221010506255" required>
         </div>
         <div>
-          <label for="kontak">No. HP yang bisa dihubungi</label>
-          <input id="kontak" name="no_kontak" maxlength="20" type="tel" inputmode="tel" placeholder="081234567890">
+          <label for="kontak">No. HP yang bisa dihubungi *</label>
+          <input id="kontak" name="no_kontak" maxlength="20" type="tel" inputmode="tel" placeholder="081234567890" required>
         </div>
         <div class="full">
           <label for="kampus">Asal kampus / sekolah *</label>
           <input id="kampus" name="kampus_sekolah" maxlength="150" placeholder="Contoh: Universitas Pamulang" required>
         </div>
         <div class="full">
-          <label>Kegiatan yang kamu ikuti</label>
+          <label>Kegiatan yang kamu ikuti *</label>
           <div class="radios">
-            <label><input type="radio" name="kegiatan" value="PKL" checked> PKL</label>
+            <label><input type="radio" name="kegiatan" value="PKL" checked required> PKL</label>
             <label><input type="radio" name="kegiatan" value="Penelitian"> Penelitian</label>
           </div>
         </div>
@@ -54,13 +54,12 @@
           <input id="mulai" name="tgl_masuk" type="date" required>
         </div>
         <div>
-          <label for="selesai">Sampai tanggal</label>
-          <input id="selesai" name="tgl_selesai" type="date">
-          <p class="hint">Kosongkan kalau belum tahu.</p>
+          <label for="selesai">Sampai tanggal *</label>
+          <input id="selesai" name="tgl_selesai" type="date" required>
         </div>
         <div class="full">
-          <label for="judul">Judul penelitian / laporan</label>
-          <input id="judul" name="judul_penelitian" maxlength="300" placeholder="Boleh dikosongkan dulu">
+          <label for="judul">Judul penelitian / laporan *</label>
+          <input id="judul" name="judul_penelitian" maxlength="300" placeholder="Masukkan judul penelitian atau laporan" required>
         </div>
       </div>
 
@@ -75,24 +74,5 @@
 <div class="toast" id="toast" role="status"></div>
 
 <script src="seismograf.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const inputs = document.querySelectorAll('input');
-    
-    inputs.forEach(input => {
-      input.addEventListener('input', function() {
-        console.log('Sedang ngetik, mengirim getaran...'); 
-        
-        if (typeof window.getarkan === 'function') {
-          window.getarkan(1.5);
-        } else {
-            console.error('Fungsi getarkan tidak ditemukan!');
-        }
-      });
-    });
-  });
-</script>
-</body>
-</html>
 </body>
 </html>

@@ -112,21 +112,6 @@ $result = mysqli_query($koneksi, $query);
 <script src="seismograf.js"></script>
 
 <script>
-    function cariData() {
-        let input = document.getElementById("cari").value.toLowerCase();
-        let tr = document.querySelectorAll("#tbody tr");
-        
-        if (typeof window.getarkan === 'function') {
-          window.getarkan(1.5);
-        }
-        
-        tr.forEach(row => {
-            if (row.children.length === 1) return; 
-            
-            let text = row.innerText.toLowerCase();
-            row.style.display = text.includes(input) ? "" : "none";
-        });
-    }
 
     function pilihUnduh(format) {
         if (format === 'csv') {
