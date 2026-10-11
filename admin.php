@@ -1,0 +1,161 @@
+<?php
+include 'config/koneksi.php';
+
+$query = "SELECT * FROM peserta_magang ORDER BY id DESC";
+$result = mysqli_query($koneksi, $query);
+?>
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin - Logbook PKL BBMKG Wilayah II</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="atas">
+  <div>
+    <p class="instansi">BBMKG Wilayah II</p>
+    <h1>Logbook PKL, panel admin</h1>
+  </div>
+  <button id="keluar" class="btn sm ghost" onclick="keluar()">Keluar</button>
+</header>
+<div class="rekam penuh"><canvas id="seismo" aria-hidden="true"></canvas></div>
+
+<main class="lebar">
+  <section id="login" hidden>
+    <div class="login-card">
+      <h2>Masuk dulu ya</h2>
+      <p class="sub">Halaman ini khusus admin. Pakai akun yang sudah didaftarkan.</p>
+      <div class="full">
+        <label for="email">Email</label>
+        <input id="email" type="email" autocomplete="username">
+      </div>
+      <div class="full" style="margin-top:20px">
+        <label for="password">Password</label>
+        <input id="password" type="password" autocomplete="current-password">
+      </div>
+      <p id="login-error" class="galat" role="alert"></p>
+      <div class="actions"><button class="btn" onclick="masuk()">Masuk</button></div>
+    </div>
+  </section>
+
+  <section id="panel">
+    <h2>Data peserta</h2>
+    <p class="sub">Yang baru mengisi form akan muncul di sini, tanpa perlu refresh (jika pakai ajax, jika PHP murni perlu refresh).</p>
+
+<div class="toolbar" style="display: flex; width: 100%;">
+  <input id="cari" type="search" placeholder="Cari nama, NISN, kampus, atau judul" oninput="cariData()" aria-label="Cari data" style="width: 70%;">
+  
+  <!-- 1 Tombol Dropdown -->
+  <select class="btn ghost" onchange="pilihUnduh(this.value)" style="cursor: pointer; appearance: auto; width: 30%;">
+    <option value="" disabled selected>Unduh Data...</option>
+    <option value="csv">Format CSV</option>
+    <option value="excel">Format Excel</option>
+    <option value="pdf">Format PDF</option>
+  </select>
+</div>
+
+    <div class="table-wrap">
+      <table>
+        <colgroup>
+          <col style="width:4%"><col style="width:9%"><col style="width:7%"><col style="width:11%">
+          <col style="width:9%"><col style="width:11%"><col style="width:10%"><col style="width:9%">
+          <col style="width:15%"><col style="width:7%"><col style="width:8%">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>No</th><th>Tgl. masuk</th><th>Kegiatan</th><th>Kampus / sekolah</th>
+            <th>No. kontak</th><th>Waktu</th><th>Nama</th><th>NISN / NIM</th>
+            <th>Judul penelitian / laporan</th><th>Status</th><th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+            <?php 
+            $no = 1;
+            if(mysqli_num_rows($result) > 0) {
+                while($row = mysqli_fetch_assoc($result)) {
+            ?>
+                <tr>
+                    <td><?php echo $no++; ?></td>
+                    <td><?php echo htmlspecialchars($row['tgl_masuk']); ?></td>
+                    <td><?php echo htmlspecialchars($row['kegiatan']); ?></td>
+                    <td><?php echo htmlspecialchars($row['kampus_sekolah']); ?></td>
+                    <td><?php echo htmlspecialchars($row['no_kontak']); ?></td>
+                    <td><?php echo htmlspecialchars($row['waktu']); ?></td>
+                    <td><?php echo htmlspecialchars($row['nama']); ?></td>
+                    <td><?php echo htmlspecialchars($row['nisn_nim']); ?></td>
+                    <td><?php echo htmlspecialchars($row['judul_penelitian']); ?></td>
+                    <td><?php echo htmlspecialchars($row['status']); ?></td>
+                    <td>
+                        <button class="btn sm" onclick="editData(<?php echo $row['id']; ?>)">Edit</button>
+                    </td>
+                </tr>
+            <?php 
+                } 
+            } else {
+                echo "<tr><td colspan='11' style='text-align:center;'>Belum ada data pendaftar</td></tr>";
+            }
+            ?>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast" role="status"></div>
+
+<!-- Pastikan script seismograf.js dipanggil lebih dulu -->
+<script src="seismograf.js"></script>
+
+<script>
+    // Fungsi sederhana untuk mencari data di tabel pakai JavaScript
+    function cariData() {
+        let input = document.getElementById("cari").value.toLowerCase();
+        let tr = document.querySelectorAll("#tbody tr");
+        
+        // Panggil efek getaran seismograf saat mengetik!
+        if (typeof window.getarkan === 'function') {
+            window.getarkan(1.5); // Angka 1.5 bisa dibesarkan atau dikecilkan
+        }
+        
+        tr.forEach(row => {
+            // Abaikan baris jika itu pesan "Belum ada data"
+            if (row.children.length === 1) return; 
+            
+            let text = row.innerText.toLowerCase();
+            row.style.display = text.includes(input) ? "" : "none";
+        });
+    }
+
+    // Fungsi untuk memproses pilihan unduhan
+    function pilihUnduh(format) {
+        if (format === 'csv') {
+            window.location.href = 'export_csv.php';
+        } else if (format === 'excel') {
+            window.location.href = 'export_excel.php';
+        } else if (format === 'pdf') {
+            window.open('export_pdf.php', '_blank'); // Buka tab baru khusus PDF
+        }
+        
+        // Kembalikan dropdown ke tulisan "Unduh Data..." setelah dipilih
+        document.querySelector('select').selectedIndex = 0;
+    }
+
+    // Arahkan ke halaman edit.php sambil membawa ID
+    function editData(id) {
+        window.location.href = 'edit.php?id=' + id;
+    }
+
+    // Arahkan ke script pembuat CSV
+    function exportCSV() {
+        window.location.href = 'export_csv.php';
+    }
+</script>
+</body>
+</html>
+</body>
+</html>

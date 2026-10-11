@@ -1,11 +1,9 @@
-// Animasi seismograf di header (tema BMKG: pemantauan getaran gempa)
-// Garis hijau berjalan terus. Panggil getarkan() untuk memicu "gempa".
 (function(){
   const c = document.getElementById('seismo');
   if(!c) return;
   const ctx = c.getContext('2d');
-  const diam = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const LANGKAH = 2;            // jarak antar titik (px)
+  const diam = false;
+  const LANGKAH = 2;
   let w, h, pts = [], energi = 0, fase = 0;
 
   function ukur(){
@@ -17,7 +15,6 @@
     pts = new Array(Math.ceil(w / LANGKAH) + 2).fill(0);
   }
 
-  // Picu getaran: kekuatan 0.3 (kecil) sampai 1.5 (besar)
   window.getarkan = function(kekuatan){
     if(diam) return;
     energi = Math.min(1.6, energi + (kekuatan || 1));
@@ -49,7 +46,6 @@
   if(diam){ gambar(); return; }
   putar();
 
-  // Getaran kecil acak tiap beberapa detik, biar terasa "hidup"
   (function acakKecil(){
     setTimeout(() => { energi = Math.max(energi, 0.25); acakKecil(); }, 5000 + Math.random() * 7000);
   })();

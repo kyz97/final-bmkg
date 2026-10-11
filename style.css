@@ -1,4 +1,3 @@
-/* Logbook PKL - gaya "lembar catatan lapangan" ala kertas seismogram */
 :root{
   --ink:#12263f; --kertas:#eef3f5; --garis:#d3e0e6; --aksen:#f26a1b;
   --biru:#0f4c75; --hijau:#1d7a2f; --amber:#a85a00; --merah:#b3261e; --muted:#51657a;
@@ -22,20 +21,17 @@ h2{font-size:26px;font-weight:700;line-height:1.15;margin-bottom:6px}
 
 :focus-visible{outline:3px solid var(--aksen);outline-offset:3px}
 
-/* ---------- Halaman form (index) ---------- */
 .halaman{max-width:1120px;margin:0 auto;padding:56px 24px 80px;display:grid;grid-template-columns:5fr 7fr;gap:56px;align-items:start}
 .sampul h1{font-size:clamp(2.6rem,5.4vw,4rem);font-weight:800;line-height:1;margin:10px 0 14px}
 .coretan{width:210px;height:14px;display:block;margin-bottom:22px}
 .coretan path{stroke-dasharray:1;stroke-dashoffset:1;animation:gambar 1.1s ease-out .4s forwards}
 .pengantar{font-size:17px;max-width:34ch;margin-bottom:34px}
 
-/* Kertas rekaman seismograf */
 .rekam{position:relative;height:84px;background:#fbfdfe;border:2px solid var(--ink);border-radius:6px;overflow:hidden;
   background-image:linear-gradient(90deg,var(--garis) 1px,transparent 1px);background-size:14px 100%}
 .rekam::after{content:"";position:absolute;left:0;right:0;top:50%;border-top:1px dashed #9fb4c0}
 #seismo{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
 
-/* Lembar isian */
 .lembar{background:#fff;border:2px solid var(--ink);border-radius:8px;padding:34px 34px 30px;
   box-shadow:7px 7px 0 #c3d4dd;transform:rotate(-.6deg);animation:jatuh .7s cubic-bezier(.2,.9,.3,1.2) both}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px 22px}
@@ -47,7 +43,6 @@ input::placeholder{color:#9aabb8}
 input:focus{outline:none;border-bottom-color:var(--aksen);background:rgba(255,226,140,.35)}
 .hint{font-size:12px;color:var(--muted);margin-top:4px}
 
-/* Pilihan jenis kegiatan */
 .radios{display:flex;gap:10px;margin-top:6px}
 .radios label{position:relative;margin:0;padding:8px 20px;border:2px solid var(--ink);border-radius:99px;color:var(--ink);font-size:14px;cursor:pointer;
   transition:background .2s,color .2s,transform .15s}
@@ -58,7 +53,6 @@ input:focus{outline:none;border-bottom-color:var(--aksen);background:rgba(255,22
 
 .actions{margin-top:30px;display:flex;gap:12px;align-items:center}
 
-/* ---------- Tombol ---------- */
 .btn{background:var(--aksen);color:var(--ink);border:2px solid var(--ink);padding:10px 22px;border-radius:8px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;
   box-shadow:3px 3px 0 var(--ink);transition:transform .12s,box-shadow .12s,background .2s}
 .btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
@@ -70,13 +64,11 @@ input:focus{outline:none;border-bottom-color:var(--aksen);background:rgba(255,22
 .btn.danger{background:#fff;color:var(--merah);border-color:var(--merah);box-shadow:2px 2px 0 var(--merah)}
 .btn.danger:hover{background:#fdeceb}
 
-/* ---------- Notifikasi ---------- */
 .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 22px;border-radius:8px;
   font-size:14.5px;font-weight:600;border:2px solid var(--ink);box-shadow:4px 4px 0 var(--aksen);opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:9}
 .toast.tampil{opacity:1;transform:translateX(-50%) translateY(-8px)}
 .toast.error{background:var(--merah);border-color:var(--merah);box-shadow:4px 4px 0 var(--ink)}
 
-/* ---------- Admin ---------- */
 .atas{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 32px;background:#fbfdfe;border-bottom:2px solid var(--ink)}
 .atas h1{font-size:24px;font-weight:800;line-height:1.1}
 .rekam.penuh{height:60px;border-width:0 0 2px;border-radius:0}
@@ -100,13 +92,11 @@ tbody tr.keluar{animation:hilang .25s ease-in forwards}
 .empty{text-align:center;padding:48px 20px;color:var(--muted);font-size:15px}
 .row-actions{display:flex;flex-direction:column;align-items:flex-start;gap:7px}
 
-/* Status ala stempel */
 .badge{display:inline-block;padding:1px 9px;border:2px solid;border-radius:6px;font-size:12px;font-weight:800;white-space:nowrap;transform:rotate(-2.5deg);transition:color .3s,border-color .3s,background .3s}
 tbody tr:nth-child(even) .badge{transform:rotate(1.5deg)}
 .badge.proses{color:var(--amber);border-color:var(--amber);background:rgba(255,170,40,.14)}
 .badge.selesai{color:var(--hijau);border-color:var(--hijau);background:rgba(46,158,63,.12)}
 
-/* ---------- Animasi ---------- */
 @keyframes gambar{to{stroke-dashoffset:0}}
 @keyframes jatuh{from{opacity:0;transform:translateY(26px) rotate(-2.5deg)}to{opacity:1;transform:translateY(0) rotate(-.6deg)}}
 @keyframes naik{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
@@ -127,5 +117,4 @@ main.getar{animation:getar .6s ease-out}
 }
 @media(max-width:560px){.grid{grid-template-columns:1fr}.atas{padding:16px 18px}}
 
-/* Catatan mode demo */
 .demo{display:inline-block;background:#fff2c4;border:2px dashed var(--ink);border-radius:8px;padding:8px 14px;font-size:13.5px;font-weight:600;margin-bottom:20px;transform:rotate(-.4deg)}
